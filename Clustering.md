@@ -1,4 +1,4 @@
-Unsupervised Learning
+Unsupervised Learning - Clustering und Dimensionsreduktion
 ================
 
 Librarys laden
@@ -158,7 +158,7 @@ remove(df.scaled.filter)
 df1 <- filter(df, class == 1)
 df0 <- filter(df, class == 0)
 
-ss2 <- sample(1:59000, 3000)
+set.seed(123345); ss2 <- sample(1:59000, 3000)
 
 df1_new <- df1[ss2, ]
 
@@ -242,8 +242,8 @@ table(df_new_original$class, km.res$cluster)
 
     ##    
     ##        1    2    3    4
-    ##   0  189  400  391   20
-    ##   1   18   35 2947    0
+    ##   0  278  171  391  160
+    ##   1   31   14 2948    7
 
 Fuzzy C-Means
 =============
@@ -282,8 +282,8 @@ table(df_new_original$class, res.fcm2$cluster)
 
     ##    
     ##        1    2    3    4
-    ##   0   66  258  481  195
-    ##   1 1868   30   40 1062
+    ##   0   61  264  471  204
+    ##   1 1895   32   39 1034
 
 TSNE
 ====
@@ -301,25 +301,25 @@ set.seed(5555)
 tsne <- Rtsne(df_new2, dims = 2, perplexity=20, verbose=TRUE, max_iter = 500)
 ```
 
-    ## Read the 3955 x 50 data matrix successfully!
+    ## Read the 3954 x 50 data matrix successfully!
     ## Using no_dims = 2, perplexity = 20.000000, and theta = 0.500000
     ## Computing input similarities...
     ## Normalizing input...
     ## Building tree...
-    ##  - point 0 of 3955
-    ## Done in 1.24 seconds (sparsity = 0.023666)!
+    ##  - point 0 of 3954
+    ## Done in 1.03 seconds (sparsity = 0.023599)!
     ## Learning embedding...
-    ## Iteration 50: error is 89.179167 (50 iterations in 2.04 seconds)
-    ## Iteration 100: error is 76.059193 (50 iterations in 2.00 seconds)
-    ## Iteration 150: error is 74.531731 (50 iterations in 1.83 seconds)
-    ## Iteration 200: error is 74.054930 (50 iterations in 1.83 seconds)
-    ## Iteration 250: error is 73.829417 (50 iterations in 1.83 seconds)
-    ## Iteration 300: error is 2.165094 (50 iterations in 1.69 seconds)
-    ## Iteration 350: error is 1.732780 (50 iterations in 1.67 seconds)
-    ## Iteration 400: error is 1.516376 (50 iterations in 1.69 seconds)
-    ## Iteration 450: error is 1.387253 (50 iterations in 1.63 seconds)
-    ## Iteration 500: error is 1.307946 (50 iterations in 1.71 seconds)
-    ## Fitting performed in 17.90 seconds.
+    ## Iteration 50: error is 89.348580 (50 iterations in 2.68 seconds)
+    ## Iteration 100: error is 75.823100 (50 iterations in 1.68 seconds)
+    ## Iteration 150: error is 74.001333 (50 iterations in 1.69 seconds)
+    ## Iteration 200: error is 73.437240 (50 iterations in 1.75 seconds)
+    ## Iteration 250: error is 73.158037 (50 iterations in 1.74 seconds)
+    ## Iteration 300: error is 2.146049 (50 iterations in 1.64 seconds)
+    ## Iteration 350: error is 1.715775 (50 iterations in 1.65 seconds)
+    ## Iteration 400: error is 1.497784 (50 iterations in 1.70 seconds)
+    ## Iteration 450: error is 1.373928 (50 iterations in 1.67 seconds)
+    ## Iteration 500: error is 1.297615 (50 iterations in 1.68 seconds)
+    ## Fitting performed in 17.88 seconds.
 
 ``` r
 #Modelling
@@ -343,15 +343,6 @@ ggplot(d_tsne_1, aes(x=V1, y=V2)) +
 
 ``` r
 #Visualisieren
-
-#Optimale Menge an Cluster
-fviz_nbclust(scale(d_tsne_1), kmeans, method = "wss") +
-  geom_vline(xintercept = 7, linetype = 2)
-```
-
-![](Clustering_files/figure-markdown_github/unnamed-chunk-6-2.png)
-
-``` r
 #--------------------
 ```
 
@@ -408,8 +399,8 @@ table(df_new_original2$class, fit_cluster_cmeans2$cluster)
 
     ##    
     ##       1   2   3   4   5   6   7
-    ##   0  88  15 419   6 363   5  72
-    ##   1 443 615  70 597 278 628 356
+    ##   0  34 388 483   2   7  10  44
+    ##   1 550  85 130 601 565 603 452
 
 ``` r
 table(df_new_original2$class, fit_cluster_kmeans$cluster)
@@ -417,14 +408,14 @@ table(df_new_original2$class, fit_cluster_kmeans$cluster)
 
     ##    
     ##       1   2   3   4   5   6   7
-    ##   0  35  12  92 374 444   7   4
-    ##   1 293 614 492 277  84 673 554
+    ##   0   1 349 513  26   4  60  15
+    ##   1 631 210 104 808 257 546 430
 
 ``` r
 table(df_new_original2$class, d_tsne_1_original$cl_hierarchical)
 ```
 
     ##    
-    ##       1   2   3   4   5   6   7
-    ##   0 579   6 143 206   7   8  19
-    ##   1 173 658 292 261 434 323 846
+    ##        1    2    3    4    5    6    7
+    ##   0   76    4   28    3  455  286  116
+    ##   1  579  670 1244  162  121   51  159
